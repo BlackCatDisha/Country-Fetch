@@ -1,0 +1,59 @@
+/* style.css – colours are set once here, then reused everywhere */
+:root {
+  --ink: #12263a;       /* main text + dark panels */
+  --sea: #0e7c86;       /* buttons and links */
+  --sea-dark: #0a5f67;
+  --mist: #e9f0f5;      /* page background */
+  --line: #cfdbe4;      /* borders */
+  --red: #c2391d;       /* error messages */
+}
+* { box-sizing: border-box; }
+body { margin: 0; font-family: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif; background: var(--mist); color: var(--ink); }
+.hidden { display: none; }
+
+/* ----- Buttons and inputs ----- */
+button { background: var(--sea); color: #fff; border: 0; border-radius: 6px; padding: 11px 18px; font: inherit; font-weight: 600; cursor: pointer; }
+button:hover { background: var(--sea-dark); }
+button.ghost { background: transparent; color: var(--ink); border: 1px solid var(--line); }
+button.ghost:hover { background: #fff; }
+input, select { font: inherit; padding: 11px 12px; border: 1px solid var(--line); border-radius: 6px; background: #fff; color: var(--ink); }
+:focus-visible { outline: 3px solid var(--sea); outline-offset: 2px; }
+
+/* ----- Login page: two halves ----- */
+.login-page { display: grid; grid-template-columns: 1fr 1fr; min-height: 100vh; }
+.login-art { background: var(--ink); color: #fff; padding: 64px; display: flex; flex-direction: column; justify-content: flex-end;
+  /* rings like latitude lines on a globe */
+  background-image: repeating-radial-gradient(circle at 20% 25%, transparent 0 46px, rgba(255,255,255,.09) 47px 48px); }
+.login-art h1 { font-size: 4rem; line-height: 1; margin: 0 0 16px; }
+.login-art p { max-width: 32ch; margin: 0; color: #b9cad8; }
+.login-form { padding: 64px; max-width: 480px; margin: auto; width: 100%; }
+.login-form h2 { font-size: 2rem; margin: 0 0 24px; }
+label { display: block; font-weight: 600; margin-bottom: 16px; }
+label input { width: 100%; margin-top: 6px; font-weight: 400; }
+.message { color: var(--red); min-height: 1.4em; margin: 0 0 8px; }
+.login-form button[type="submit"] { width: 100%; }
+.switch { margin-top: 20px; }
+.switch a { color: var(--sea); font-weight: 600; }
+
+/* ----- Country page ----- */
+.topbar { display: flex; justify-content: space-between; align-items: center; padding: 14px 32px; background: var(--ink); color: #fff; }
+.topbar span { margin-right: 12px; color: #b9cad8; }
+.topbar .ghost { color: #fff; border-color: #3b536a; }
+.topbar .ghost:hover { background: #1c3550; }
+.wrap { max-width: 1100px; margin: 32px auto; padding: 0 20px; }
+.search-row { display: flex; gap: 10px; flex-wrap: wrap; }
+.search-row input[type="text"] { flex: 1; min-width: 200px; }
+.status { color: #51687c; margin: 14px 0; }
+
+/* ----- Table ----- */
+table { width: 100%; border-collapse: collapse; background: #fff; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+th, td { text-align: left; padding: 12px 14px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+th { background: #f5f9fb; font-size: .9rem; }
+td img { border: 1px solid var(--line); display: block; }
+.empty { text-align: center; color: #51687c; padding: 32px; }
+@media (max-width: 800px) {
+  .login-page { grid-template-columns: 1fr; }
+  .login-art { display: none; }
+  .login-form { padding: 32px 20px; }
+  table { display: block; overflow-x: auto; }   /* table scrolls sideways on phones */
+}

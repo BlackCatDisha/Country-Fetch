@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Country Finder – Sign in</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="login-page">
+
+  <!-- Left side: just a decorative panel (the circles are drawn in CSS) -->
+  <section class="login-art">
+    <h1>Country<br>Finder</h1>
+    <p>Look up any country's capital, population, area, languages and currency.</p>
+  </section>
+
+  <!-- Right side: the form. The same form works for both Sign In and Sign Up -->
+  <section class="login-form">
+    <h2 id="formTitle">Sign in</h2>
+
+    <!-- onsubmit runs submitForm() in auth.js when the button is clicked or Enter is pressed -->
+    <form onsubmit="submitForm(event)">
+      <!-- "signup-only" fields are hidden while we are in Sign In mode -->
+      <label class="signup-only hidden">Name
+        <input type="text" id="name" placeholder="Your name">
+      </label>
+      <label>Email
+        <input type="text" id="email" placeholder="you@example.com">
+      </label>
+      <label>Password
+        <input type="password" id="password" placeholder="At least 6 characters">
+      </label>
+      <label class="signup-only hidden">Confirm password
+        <input type="password" id="confirm" placeholder="Type it again">
+      </label>
+
+      <p id="message" class="message"></p>
+      <button type="submit" id="submitBtn">Sign in</button>
+    </form>
+
+    <p class="switch">
+      <span id="switchText">New here?</span>
+      <a href="#" id="switchLink" onclick="switchMode(event)">Create an account</a>
+    </p>
+  </section>
+
+  <script src="auth.js"></script>
+</body>
+</html>

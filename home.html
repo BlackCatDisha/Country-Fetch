@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Country Finder</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Top bar: greeting + logout -->
+  <header class="topbar">
+    <strong>Country Finder</strong>
+    <div>
+      <span id="welcome"></span>
+      <button class="ghost" onclick="logout()">Log out</button>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <!-- Search row: typing + button = API call. The region dropdown only filters what we already have -->
+    <form class="search-row" onsubmit="search(event)">
+      <input type="text" id="searchBox" placeholder="Search a country, e.g. india">
+      <button type="submit">Search</button>
+      <select id="regionFilter" onchange="showTable()">
+        <option value="All">All regions</option>
+        <option>Africa</option>
+        <option>Americas</option>
+        <option>Asia</option>
+        <option>Europe</option>
+        <option>Oceania</option>
+        <option>Antarctic</option>
+      </select>
+      <button type="button" class="ghost" onclick="search(event, true)">Refresh data</button>
+    </form>
+
+    <!-- Shows "Loaded from API" or "Loaded from cache" -->
+    <p id="status" class="status">Search for a country to begin.</p>
+
+    <!-- Empty table. countries.js fills the <tbody> with rows -->
+    <table>
+      <thead>
+        <tr>
+          <th>Flag</th><th>Country</th><th>Capital</th><th>Region</th>
+          <th>Population</th><th>Area (km²)</th><th>Languages</th><th>Currency</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody"></tbody>
+    </table>
+  </main>
+
+  <script src="countries.js"></script>
+</body>
+</html>
