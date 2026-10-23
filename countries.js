@@ -41,14 +41,18 @@ function saveToCache(name, data) {
 }
 
 // ---------- 4. The API call ----------
-// ?fields= asks the API for only the data we need, so the reply is small
 async function fetchCountries(name) {
-  const url = "https://restcountries.com/v3.1/name/" + encodeURIComponent(name) +
-    "?fields=name,capital,population,region,area,flags,currencies,languages";
-  const response = await fetch(url);          // go to the address and wait for the reply
-  if (response.status === 404) return [];     // 404 = no country matched
-  if (!response.ok) throw new Error("API error " + response.status);
-  return await response.json();               // turn the reply into a JS array
+  let response;
+  try {
+    response = await fetch("/api/countries?name=" + encodeURIComponent(name));
+  } catch {
+    throw new Error("Could not contact the backend. Start it with npm start and try again.");
+  }
+  const result = await response.json();
+  if (!response.ok) {
+    throw new Error(result.error || "Country service returned HTTP " + response.status);
+  }
+  return result.data;
 }
 
 // ---------- 5. Search (runs when the form is submitted) ----------
@@ -73,10 +77,11 @@ async function search(event, forceFresh) {
     try {
       currentResults = await fetchCountries(name);   // real API call
       saveToCache(name, currentResults);
-      status.textContent = "Loaded from API";
+      status.textContent = currentResults.length ? "Loaded live data from API" : "No country matched that search.";
     } catch (error) {
       currentResults = [];
-      status.textContent = "Could not reach the API. Check your internet and try again.";
+      console.error("Country search failed:", error);
+      status.textContent = error.message || "Could not load country data. Make sure the backend is running.";
     }
   }
   showTable();
@@ -105,14 +110,18 @@ function showTable() {
     const currency = c.currencies
       ? Object.values(c.currencies).map(function (cur) { return cur.name; }).join(", ")
       : "N/A";
+    const flag = c.flags && c.flags.png ? c.flags.png : "";
+    const name = c.name && c.name.common ? c.name.common : "N/A";
+    const population = typeof c.population === "number" ? c.population.toLocaleString() : "N/A";
+    const area = typeof c.area === "number" ? c.area.toLocaleString() : "N/A";
 
     return "<tr>" +
-      '<td><img src="' + c.flags.png + '" alt="Flag of ' + c.name.common + '" width="40"></td>' +
-      "<td><strong>" + c.name.common + "</strong></td>" +
+      '<td><img src="' + flag + '" alt="Flag of ' + name + '" width="40"></td>' +
+      "<td><strong>" + name + "</strong></td>" +
       "<td>" + capital + "</td>" +
       "<td>" + c.region + "</td>" +
-      "<td>" + c.population.toLocaleString() + "</td>" +   // adds commas
-      "<td>" + c.area.toLocaleString() + "</td>" +
+      "<td>" + population + "</td>" +   // adds commas
+      "<td>" + area + "</td>" +
       "<td>" + languages + "</td>" +
       "<td>" + currency + "</td>" +
       "</tr>";

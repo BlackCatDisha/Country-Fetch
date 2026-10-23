@@ -1,0 +1,9 @@
+{
+  "name": "country-finder",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Country Finder frontend and country-data API proxy",
+  "scripts": {
+    "start": "node server.js"
+  }
+}
